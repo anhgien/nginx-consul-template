@@ -1,0 +1,29 @@
+version: '3'
+services:
+  nginx:
+    image: nginx-consul-template
+    container_name: nginx
+    networks:
+      - consul
+      - default
+    ports:
+      - "80:80"
+    labels:
+      SERVICE_IGNORE: 'yes'
+
+  http:
+    image: nginxdemos/hello:latest
+    labels:
+      SERVICE_80_NAME: http
+    #   SERVICE_80_CHECK_HTTP: /
+    #   SERVICE_80_CHECK_INTERVAL: 5s
+    #   SERVICE_443_IGNORE: 'yes'
+      SERVICE_TAGS: production
+    ports:
+      - "80"
+    # networks:
+    #   - consul
+
+networks: 
+  consul:
+    external: true
